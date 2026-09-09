@@ -50,4 +50,8 @@
 
 ---
 
+## Credits
+
+- BGM: [First Light Particles](https://opengameart.org/content/first-light-particles-%E2%80%93-cc0-atmospheric-pianoambient-track) by Yoiyami (CC0 / Public Domain)
+
 *本项目为个人学习与作品展示用途。*
