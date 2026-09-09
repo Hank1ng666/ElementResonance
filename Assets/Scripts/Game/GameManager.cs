@@ -2,9 +2,11 @@
 // ─── 挂载对象: GameManager（场景物体，通常和 EnemySpawner / UpgradeManager 挂一起）
 // ─── 说明: 游戏时间、状态、击杀数、胜负结算、重开。
 //           ⚠ Restart 里必须把 timeScale 设回 1，否则重开后游戏永远暂停！
+//           开始界面: startPanel 不填则点击 Play 直接开局（与 1.0 行为一致）。
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,10 +18,31 @@ public class GameManager : MonoBehaviour
     [Header("连接（拖拽，Day 8 时再填也行）")]
     public GameObject gameOverPanel;
     public GameObject victoryPanel;
+    public GameObject startPanel;                // 开始界面（不填则直接开局）
+
+    [Header("结算数据（可不填）")]
+    public Text victoryStatsText;                // 胜利面板上的用时/击杀行
 
     [Header("音效（Day 9，可不填）")]
     public AudioClip gameOverClip;
     public AudioClip victoryClip;
+
+    void Start()
+    {
+        // 有开始界面：先暂停，等玩家点"开始游戏"（uGUI 不受 timeScale 影响，按钮可点）
+        if (startPanel != null)
+        {
+            startPanel.SetActive(true);
+            Time.timeScale = 0f;
+        }
+    }
+
+    // 开始按钮的 OnClick 绑这个方法
+    public void StartGame()
+    {
+        if (startPanel != null) startPanel.SetActive(false);
+        Time.timeScale = 1f;
+    }
 
     void Update()
     {
@@ -47,6 +70,8 @@ public class GameManager : MonoBehaviour
         state = GameState.Victory;
         Time.timeScale = 0f;
         Debug.Log("胜利！用时 " + FormatTime(gameTime) + "，击杀 " + kills);
+        if (victoryStatsText != null)
+            victoryStatsText.text = "用时 " + FormatTime(gameTime) + " · 击杀 " + kills;
         if (victoryClip != null) AudioSource.PlayClipAtPoint(victoryClip, transform.position);
         if (victoryPanel != null) victoryPanel.SetActive(true);
     }

@@ -24,6 +24,7 @@ public class Projectile : MonoBehaviour
         lifetime = life;
         damage = dmg;
         playerStats = ps;
+        transform.up = dir;   // 精灵是竖长条：让局部Y轴对准飞行方向（2D标准瞄准法）
     }
 
     void Update()
