@@ -2050,7 +2050,7 @@ MonoBehaviour:
   lightningStacks: 0
   iceStacks: 0
   hasFireResonance: 0
-  hasLightningResonance: 1
+  hasLightningResonance: 0
   hasIceResonance: 0
   burnDPS: 5
   burnDuration: 3
