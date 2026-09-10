@@ -4,12 +4,13 @@
 
 ---
 
-## 〇、施工记录与调优定稿（2026.09）
+## 〇、竣工修订记录（2026.09，3天集中施工后回写）
 
 **代码修复（施工中发现并已修，均已同步到仓库代码）**：
 1. `Enemy.cs` Update 移动行 `Vector3 += Vector2` 歧义（CS0034 编译错误）——加 `(Vector3)` 强转修复（同型代码在 Projectile/EnemyBullet/Boss 原本就正确，仅此一处遗漏）。
 2. `Boss.cs` 冲锋前摇结束硬编码 `sr.color = Color.white`，会把预制体设的暗红覆盖成白色——改为 Init 时记录 baseColor、前摇结束恢复 baseColor。
 3. 音效钩子（Day 9）：Projectile / Pickup / PlayerStats / Boss / GameManager 共 7 个 `AudioClip` 字段 + `PlayClipAtPoint` 调用，全部判空，不填静音不报错。
+4. v1.1（2026-09-09，见 07_迭代记录）：GameManager 增加开始界面逻辑（startPanel 字段 + Start() 暂停 + StartGame() 恢复）与 victoryStatsText 战绩填充；Projectile.Init() 末尾增加 `transform.up = dir`（修复飞刀自 Day 3 起从不朝向飞行方向的视觉缺陷）。架构检查结论（判空/无单例/无Find）对新增代码同样成立。
 
 **数值定稿（Day 9 三轮试玩调优，过程与证据见 05_意见箱）**：
 - baseDamage 10→15（开局 DPS 12.5→18.75，反超史莱姆 13.3 血/秒的进场流量）

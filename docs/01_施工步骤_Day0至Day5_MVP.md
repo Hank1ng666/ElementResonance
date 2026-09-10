@@ -1,7 +1,7 @@
 # 01 · 施工步骤 Day 0～Day 5（MVP核心循环）
 
 > 每一步都按顺序做。做完每个阶段的"运行测试"再进入下一阶段。
-> **版本说明（2026.09）**：实际施工为 3 天集中完成（Day 0~4 / Day 5~7 / Day 8~10），"Day N"为阶段编号而非日历天。
+> **竣工说明（2026.09）**：实际施工为 3 天集中完成（Day 0~4 / Day 5~7 / Day 8~10），"Day N"为阶段编号而非日历天。本文档已按竣工实况回写勘误，修订处标注【竣工勘误】。
 > 配套文件：`00_施工蓝图`（物体/组件参数）、`03_代码Review`（出错时查）。
 
 ---
@@ -21,7 +21,7 @@ Assets/Scenes、Assets/Scripts、Assets/Prefabs、Assets/Materials、Assets/Spri
 1. 把本开发包 `UnityDevKit/Assets/Scripts/` **整个文件夹**拷到工程的 `Assets/` 下（直接资源管理器复制粘贴，Unity会自动刷新）。
 2. 回到 Unity，等左下角编译转圈结束，**Console 没有红色报错** = 18个脚本全部编译通过。
 
-### Step 0.4 建3个Tag（注：原文写4个）
+### Step 0.4 建3个Tag【竣工勘误：原文写4个】
 Edit → Project Settings → Tags and Layers → Tags 点 +，依次添加：`Enemy`、`Wall`、`Boss`（大小写完全一致）。`Player` 是 Unity 内置 Tag，**无需创建**，直接在物体 Tag 下拉里选用。
 
 ### Step 0.5 建场地
@@ -34,7 +34,7 @@ Edit → Project Settings → Tags and Layers → Tags 点 +，依次添加：`E
 1. Ctrl+S 保存到 `Assets/Scenes/Game.unity`。
 2. File → Build Settings → Add Open Scenes（重开按钮依赖这一步，**必做**）。
 
-**Day 0 检查**：Console 无报错；**Scene 视图**（滚轮缩小）能看到灰色场地和四面墙。（注：原文写 Game 视图——摄像机 Size=9 视野只有±9，墙在±22 之外，Game 视图看不见墙属正常）
+**Day 0 检查**：Console 无报错；**Scene 视图**（滚轮缩小）能看到灰色场地和四面墙。【竣工勘误：原文写 Game 视图——摄像机 Size=9 视野只有±9，墙在±22 之外，Game 视图看不见墙属正常】
 
 ---
 
@@ -87,7 +87,7 @@ Edit → Project Settings → Tags and Layers → Tags 点 +，依次添加：`E
 - `Enemy_Tank`：HP80，Speed 1.2，Damage 20，Exp 3，MoveType=0，精灵Scale(1.6,1.6,1)棕色。
 - 每个的 Tag 都必须是 **Enemy**，Collider 都勾 IsTrigger。
 
-### Step 2.3 手动测试敌人（注：重写本步）
+### Step 2.3 手动测试敌人【竣工勘误：重写本步】
 > 原版预期"手拖的敌人会追人会扣血"不成立：敌人引用由 Spawner 的 `Init()` 注入（Day 3 才有），手拖实例的 player/playerStats 为空 → `Enemy.Update` 首行判空直接 return，**原地不动且接触伤害为 0**。
 
 1. 从 Prefabs 拖1个 Enemy_Slime 到场景里玩家旁边。
@@ -117,7 +117,7 @@ Edit → Project Settings → Tags and Layers → Tags 点 +，依次添加：`E
 1. Hierarchy 的 Player 右键 → Create Empty，命名 `Weapon_Dagger`（Local Position 0,0,0）。
 2. 挂 `DaggerWeapon`。
 3. 拖引用：`Projectile Prefab` ← Prefabs 里的 Projectile_Dagger；`Spawner` ← Hierarchy 里的 **GameManager**。
-   > （注：Spawner 字段类型是 EnemySpawner 组件，而该组件在 Step 3.5 才挂上——**实际施工顺序：先做 Step 3.5（挂 Spawner + 连线），再回来做本步**，否则拖不进去。
+   > 【竣工勘误】Spawner 字段类型是 EnemySpawner 组件，而该组件在 Step 3.5 才挂上——**实际施工顺序：先做 Step 3.5（挂 Spawner + 连线），再回来做本步**，否则拖不进去。
 
 ### Step 3.3 建宝石Prefab
 1. 建 Sprite(Square)，命名 `Pickup_Gem`，Scale=(0.4,0.4,1)，颜色黄色。
@@ -133,7 +133,7 @@ Edit → Project Settings → Tags and Layers → Tags 点 +，依次添加：`E
 1. 选中 GameManager → Add Component：`EnemySpawner`。
 2. 填连接：`Player`←拖Player，`Player Stats`←拖Player，`Game Manager`←拖GameManager（自己），`Enemy Container`←拖EnemyContainer。
 3. Waves → Size=**1**：StartTime=0，EndTime=9999（测试用超长），SpawnInterval=1.5，SpawnTable Size=1 → 元素0拖 Enemy_Slime。
-4. SpawnRadius=**20**，ArenaHalfSize=21。（注：原值 13 只保证上下方向屏外出生；16:9 下左右视野±16 > 13，左右两侧会刷在眼前。20 > 视野对角线 18.4 且 < 场地边界 21，全方向屏外）
+4. SpawnRadius=**20**，ArenaHalfSize=21。【竣工勘误：原值 13 只保证上下方向屏外出生；16:9 下左右视野±16 > 13，左右两侧会刷在眼前。20 > 视野对角线 18.4 且 < 场地边界 21，全方向屏外】
 
 ### Step 3.6 运行测试
 ```
@@ -174,7 +174,7 @@ Edit → Project Settings → Tags and Layers → Tags 点 +，依次添加：`E
 ### Step 4.3 建回血包Prefab
 按 4.2 所述：Pickup_Heart = 红色小方块 + CircleCollider2D(IsTrigger) + Pickup(HealAmount=30, ExpValue=0) → 拖进Prefabs。
 
-### Step 4.4 运行测试（注：原"挂机到2:30见精英"预期不成立）
+### Step 4.4 运行测试【竣工勘误：原"挂机到2:30见精英"预期不成立】
 > 原数值下飞刀 12.5 DPS < 史莱姆 13.3 血/秒的进场流量，站桩 **30 秒内必死**（数值必然而非 bug）。验收分两轮：
 
 ```
@@ -200,8 +200,8 @@ Edit → Project Settings → Tags and Layers → Tags 点 +，依次添加：`E
 ### Step 5.1 确认经验链路
 代码已全部就位（GainEXP/升级回复/待选强化计数）。今天只验证：
 1. 运行，杀怪吃宝石。
-2. Console 观察：`升级！当前等级 2，待选强化 1`——**吃满 5 颗宝石**升到 2 级（宝石经验 1/颗，首级需求 5）。（注：原文"第一颗宝石经验5直接升一级"有误）
-3. Hierarchy 选中 Player → PlayerStats：Level 在涨、CurrentHP 升级时+15。（注：原文让看 Pending Level Ups——该字段是 HideInInspector，Inspector 不可见属正常，看 Level 与 CurrentHP 即可）
+2. Console 观察：`升级！当前等级 2，待选强化 1`——**吃满 5 颗宝石**升到 2 级（宝石经验 1/颗，首级需求 5）。【竣工勘误：原文"第一颗宝石经验5直接升一级"有误】
+3. Hierarchy 选中 Player → PlayerStats：Level 在涨、CurrentHP 升级时+15。【竣工勘误：原文让看 Pending Level Ups——该字段是 HideInInspector，Inspector 不可见属正常，看 Level 与 CurrentHP 即可】
 
 ### Step 5.2 临时"消化"待选强化（明天下单调面板）
 现在没有面板，Pending Level Ups 会一直堆积。临时验证升级循环：直接把 `UpgradeManager` 挂到 GameManager（Day 6 才填面板）——**Console 会提示"UpgradeManager 未配置好"，这是预期行为**，说明调用链已通。

@@ -1,7 +1,7 @@
 # 00 · Unity 施工蓝图（GameObject / Prefab / 连接总表）
 
 > 开工前通读一遍。所有脚本已在 `Assets/Scripts/` 里给齐，本蓝图告诉你"挂在哪、填什么、连什么"。
-> **版本说明（2026.09）**：本文档数值为 Day 9 三轮调优后的定稿；调优过程与证据见 `05_意见箱`。
+> **竣工说明（2026.09）**：本文档数值已按竣工实况回写（Day 9 三轮调优终稿），修订处标注【竣工】；调优过程与证据见 `05_意见箱`。
 
 ---
 
@@ -32,7 +32,7 @@ Assets/
 | Tag: `Enemy` | Edit → Project Settings → Tags and Layers | 加 Tag |
 | Tag: `Wall` | 同上 | 加 Tag |
 | Tag: `Boss` | 同上 | 加 Tag |
-| ~~Tag: `Player`~~ | — | （注：`Player` 为 Unity 内置 Tag，**无需创建**，直接选用 |
+| ~~Tag: `Player`~~ | — | 【竣工勘误】`Player` 为 Unity 内置 Tag，**无需创建**，直接选用 |
 | 主场景存为 `Scenes/Game.unity` | Ctrl+S | 并拖进 File → Build Settings（重开按钮需要！） |
 | Camera | Main Camera 的 Inspector | Projection=Orthographic，Size=9 |
 | 物理矩阵 | 默认不改 | — |
@@ -55,6 +55,7 @@ Game.unity
 │   ├── Weapon_Orbit     ← 默认关闭
 │   └── Weapon_Nova      ← 默认关闭
 └── Canvas               ← Day 8 建（含 EventSystem 自动生成）
+    ├── StartPanel（v1.1：标题+操作说明+"开始游戏"按钮，见 07_迭代记录）
     ├── HUD（HP条/等级/经验条/计时/击杀/共鸣提示）
     ├── BossHpBar（Day 7/8）
     ├── UpgradePanel（Day 6）
@@ -79,15 +80,15 @@ Game.unity
 | Waves[0] | Start 0 / End 90 / Interval 1.5 / SpawnTable Size=4（4个都是 Enemy_Slime） |
 | Waves[1] | Start 90 / End 180 / Interval 1.2 / SpawnTable Size=4（3个Slime+1个Bat） |
 | Waves[2] | Start 180 / End 270 / Interval 0.9 / SpawnTable Size=5（2Slime+2Bat+1Tank） |
-| Waves[3] | Start 270 / End 360 / Interval **0.55** / SpawnTable Size=5（1Slime+**3Bat**+1Tank）（注：Day 9 第3轮调优，原 0.7 / 2S+2B+1T） |
+| Waves[3] | Start 270 / End 360 / Interval **0.55** / SpawnTable Size=5（1Slime+**3Bat**+1Tank）【竣工：Day 9 第3轮调优，原 0.7 / 2S+2B+1T】 |
 | Elite Prefab | 拖 Enemy_Elite（Day 4 之前可空） |
 | Elite Time 1 / 2 | 150 / 300 |
 | Boss Prefab | Day 7 再拖 Enemy_Boss |
 | Boss Time | 360 |
-| Spawn Radius | **20**（注：原13在16:9下左右两侧刷在视野内（左右视野±16>13）；20>对角线18.4且<边界21） |
+| Spawn Radius | **20**【竣工勘误：原13在16:9下左右两侧刷在视野内（左右视野±16>13）；20>对角线18.4且<边界21】 |
 | Arena Half Size | 21 |
-| HP Scale Per Minute | **0.6**（注：Day 9 调优，原0.4） |
-| Damage Scale Per Minute | **0.25**（注：Day 9 调优，原0.15） |
+| HP Scale Per Minute | **0.6**【竣工：Day 9 调优，原0.4】 |
+| Damage Scale Per Minute | **0.25**【竣工：Day 9 调优，原0.15】 |
 | Difficulty Cap Time | 360 |
 | **Player** | **拖场景中的 Player** |
 | **Player Stats** | **拖场景中的 Player** |
@@ -104,18 +105,23 @@ Game.unity
 | Option Buttons | Size=3，拖 UpgradePanel 下的3个Button |
 | Option Texts | Size=3，拖每个Button下的Text |
 
-**GameManager 脚本字段（Day 8 填）：**
+**GameManager 脚本字段（Day 8 填；v1.1 增补）：**
 
 | 字段 | 填什么 |
 |---|---|
 | Game Over Panel | 拖 GameOverPanel |
 | Victory Panel | 拖 VictoryPanel |
+| Start Panel | 拖 StartPanel【v1.1：不填 = 点 Play 直接开局】 |
+| Victory Stats Text | 拖 VictoryPanel 里的战绩 Text【v1.1】 |
+| Start Panel 音效等其余字段 | gameOverClip / victoryClip（音效，可空） |
+
+> v1.1 行为：有 Start Panel 时点 Play 先暂停（timeScale=0），按钮 OnClick 调 `GameManager.StartGame` 开局。
 
 ### 3.2 Player（场景实例）
 
 | 项 | 内容 |
 |---|---|
-| 创建方式 | （注：Day 1 直接在场景建空物体挂齐组件使用，**未制作 Player Prefab**（场景实例即最终形态，引用也全在实例上） |
+| 创建方式 | 【竣工勘误】Day 1 直接在场景建空物体挂齐组件使用，**未制作 Player Prefab**（场景实例即最终形态，引用也全在实例上） |
 | Transform | (0, 0, 0) |
 | Tag | **Player** |
 | Component | SpriteRenderer（Square改色）、**Rigidbody2D**（Gravity Scale=0，Collision Detection=Discrete，Freeze Rotation Z=✓）、**CircleCollider2D**（**不勾** IsTrigger，半径0.5）、`PlayerController`、`PlayerStats` |
@@ -129,7 +135,7 @@ Player 身上的 `DaggerWeapon.spawner`、`PlayerStats.gameManager` 等是**场�
 
 | 子物体 | 挂的脚本 | 关键 Inspector | 初始状态 |
 |---|---|---|---|
-| Weapon_Dagger | `DaggerWeapon` | Projectile Prefab←拖 Projectile_Dagger 预制体；**Spawner←拖 GameManager**（要它的EnemySpawner）；数值（**15** / 0.8 / 12 / 2 / 15°）（注：Day 9 调优，伤害10→15） | **激活** |
+| Weapon_Dagger | `DaggerWeapon` | Projectile Prefab←拖 Projectile_Dagger 预制体；**Spawner←拖 GameManager**（要它的EnemySpawner）；数值（**15** / 0.8 / 12 / 2 / 15°）【竣工：Day 9 调优，伤害10→15】 | **激活** |
 | Weapon_Orbit | `OrbitWeapon` | Blade Prefab←拖 OrbitBlade 预制体；数值默认（15 / 270°/s / 2.2 / 2把） | **关闭**（强化解锁时 PlayerStats.SetActive） |
 | Weapon_Nova | `NovaWeapon` | 数值默认（20 / 2.5s / 3.5） | **关闭** |
 
@@ -183,7 +189,7 @@ Player 身上的 `DaggerWeapon.spawner`、`PlayerStats.gameManager` 等是**场�
 
 ### 4.5 Enemy_Elite（精英·巨兽）
 
-同上结构，差异：MaxHP=**300**（注：Day 9 调优，原400），MoveSpeed=1.5，ContactDamage=25，Exp=**10**，**IsElite=✓**，ExpGemPrefab=拖 Pickup_Gem，HeartPrefab=拖 Pickup_Heart。精灵 Scale≈(2.5,2.5,1) 改深红色。
+同上结构，差异：MaxHP=**300**【竣工：Day 9 调优，原400】，MoveSpeed=1.5，ContactDamage=25，Exp=**10**，**IsElite=✓**，ExpGemPrefab=拖 Pickup_Gem，HeartPrefab=拖 Pickup_Heart。精灵 Scale≈(2.5,2.5,1) 改深红色。
 
 ### 4.6 Pickup_Gem（经验宝石）
 
@@ -214,7 +220,7 @@ Player 身上的 `DaggerWeapon.spawner`、`PlayerStats.gameManager` 等是**场�
 | 组件 | 设置 |
 |---|---|
 | SpriteRenderer | 大方形精灵，暗红色，Scale≈(3,3,1) |
-| CircleCollider2D | **IsTrigger=✓**，Radius=**0.5**（注：原值1.5——Collider半径会被Scale放大，1.5×3=4.5格碰撞圈，"没碰到就掉血"；0.5×3=1.5与3×3身体一致） |
+| CircleCollider2D | **IsTrigger=✓**，Radius=**0.5**【竣工勘误：原值1.5——Collider半径会被Scale放大，1.5×3=4.5格碰撞圈，"没碰到就掉血"；0.5×3=1.5与3×3身体一致】 |
 | Rigidbody2D | 不加 |
 | 脚本 | `Boss` |
 | Tag | **Boss** |
@@ -229,7 +235,7 @@ Player 身上的 `DaggerWeapon.spawner`、`PlayerStats.gameManager` 等是**场�
 | Rigidbody2D | Body Type=**Kinematic** |
 | 脚本 | `EnemyBullet` |
 
-### 4.11 Player（Prefab）（注：未采用）
+### 4.11 Player（Prefab）【竣工：未采用】
 
 原计划将场景实例另存为 Prefab 备份；实际施工直接使用场景实例，**未创建**。若日后需要，把场景 Player 拖进 Prefabs 文件夹即可（场景引用仍留在实例上，见 3.3 警告）。
 
@@ -254,5 +260,7 @@ Player 身上的 `DaggerWeapon.spawner`、`PlayerStats.gameManager` 等是**场�
 | 场景 Player | Main Camera 的 CameraFollow | Target |
 | GameOverPanel / VictoryPanel | GameManager | Game Over Panel / Victory Panel（Day 8） |
 | BossBullet / Enemy_Slime（Prefab资产） | Enemy_Boss 预制体 | Bullet Prefab / Summon Prefab（Day 7） |
+| StartPanel | GameManager | Start Panel；开始按钮 OnClick → `GameManager.StartGame`【v1.1】 |
+| 各音频文件 | 各预制体/场景物体 | 音效接线总表见 07_迭代记录（Day 9） |
 
 **不需要任何手动连接的**：Enemy、Boss、Projectile、EnemyBullet、Pickup、OrbitBlade 的运行时引用全部由 Spawner / 武器脚本在生成时注入。

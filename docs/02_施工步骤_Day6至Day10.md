@@ -1,7 +1,7 @@
 # 02 · 施工步骤 Day 6～Day 10（强化 · 共鸣 · Boss · UI · 收尾）
 
 > 前置：Day 0～5 已完成，MVP可玩。
-> **版本说明（2026.09）**：实际施工为 3 天集中完成（Day 5~7 / Day 8~10 各一天），Day 为阶段编号。
+> **竣工说明（2026.09）**：实际施工为 3 天集中完成（Day 5~7 / Day 8~10 各一天），Day 为阶段编号；本文档已按竣工实况回写勘误，修订处标注【竣工】。
 
 ---
 
@@ -45,7 +45,7 @@
 ↓ 选"生命护符"：PlayerStats.MaxHP+25且回50
 ↓ 选"分裂飞刀"×2：飞刀变3把扇形
 ```
-> 实测注：数值类强化当日即可验收；**"旋刃/新星"选后无任何即时效果属预期**——两件武器物体 Day 7 才创建（PlayerStats 的 Orbit/Nova Weapon Object 字段为空，`EnableWeapon` 判空静默跳过）。Day 7 建好物体并拖好字段后即生效。
+> 【竣工实测】数值类强化当日即可验收；**"旋刃/新星"选后无任何即时效果属预期**——两件武器物体 Day 7 才创建（PlayerStats 的 Orbit/Nova Weapon Object 字段为空，`EnableWeapon` 判空静默跳过）。Day 7 建好物体并拖好字段后即生效。
 
 **常见错误**
 - 点按钮没反应 → Option Buttons/Option Texts 数组没填或顺序错（Text拖成了按钮父物体）。
@@ -124,6 +124,13 @@
 3. 复制改字"胜利！"建 `VictoryPanel`（同样默认取消激活），按钮同样绑 Restart。
 4. GameManager → 两个字段分别拖入两个面板。
 
+### Step 8.3+ 开始界面【v1.1 竣工后追加，完整记录见 07_迭代记录】
+原版点 Play 直接开局；v1.1 为演示/分发补了开始界面：
+1. Canvas 下建 `StartPanel`：半透明遮罩 + 标题"元素共鸣 / ELEMENT RESONANCE" + 操作说明 + Button"开始游戏"
+2. GameManager（脚本 v1.1 已更新）→ `Start Panel` ← 拖 StartPanel（不填 = 保持直接开局的旧行为）
+3. 开始按钮 OnClick → + → 拖 GameManager → 选 `GameManager.StartGame`
+原理：Start() 检测到 startPanel 就 timeScale=0 暂停全场，点击恢复；uGUI 事件不受 timeScale 影响，暂停中按钮照样可点。
+
 ### Step 8.4 全流程验收
 ```
 点Play完整打一局
@@ -140,7 +147,7 @@
 - 重开按钮点了没反应 → 场景没加进 Build Settings（Day 0 Step 0.6）。
 - UI文字不动 → UIController 的字段拖错物体（比如把 Slider 背景 Image 拖进了 Text 槽）。
 - 共鸣提示不消失 → toastText 用的是 unscaled 计时，确认没改代码；字太长就缩字号。
-- 血条/经验条永远不满格 → Slider 出厂 Fill Area 的 Right=-20 且 Handle 残留：删掉 Handle Slide Area 子物体 + Fill Area 的 Right 改 0。（注：血量 100/100 时绿条仍差一截+右端小圆点）
+- 血条/经验条永远不满格 → Slider 出厂 Fill Area 的 Right=-20 且 Handle 残留：删掉 Handle Slide Area 子物体 + Fill Area 的 Right 改 0。【竣工实测坑：血量 100/100 时绿条仍差一截+右端小圆点】
 
 ---
 
@@ -148,7 +155,7 @@
 
 ### Step 9.1 音效（不用AudioManager）
 1. 找免费音效包（Kenney 的 Impact/Pickup 类，CC0）拖进 `Assets/Audio/`。
-2. （当前版本）音效钩子**已内置在代码里**（5 个脚本共 7 个 AudioClip 字段，全部判空，不填静音不报错），只需在对应 Prefab / 场景物体上拖音频文件：
+2. 【竣工版】音效钩子**已内置在代码里**（5 个脚本共 7 个 AudioClip 字段，全部判空，不填静音不报错），只需在对应 Prefab / 场景物体上拖音频文件：
    - `Projectile.hitClip`（Projectile_Dagger 预制体）→ 受击声
    - `Pickup.pickupClip`（Pickup_Gem / Pickup_Heart 预制体）→ 拾取声
    - `PlayerStats.levelUpClip / resonanceClip`（Player）→ 升级 / 共鸣
