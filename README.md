@@ -9,11 +9,21 @@
 
 ## 游戏截图（实机录屏截取）
 
-| 开始界面 | 升级三选一（元素精华 / 武器精通同池抽取） |
-|:---:|:---:|
-| ![开始界面](docs/images/01_start.png) | ![升级三选一](docs/images/02_upgrade.png) |
-| **Boss 战（6:00 登场）** | **胜利结算（验收局：6:17 / Lv17 / 400 击杀）** |
-| ![Boss战](docs/images/03_boss.png) | ![胜利结算](docs/images/04_victory.png) |
+**开始界面**
+
+![开始界面](docs/images/01_start.png)
+
+**升级三选一（元素精华 / 武器精通同池抽取，含前置条件）**
+
+![升级三选一](docs/images/02_upgrade.png)
+
+**Boss 战（6:00 登场，三招循环·前摇可读）**
+
+![Boss战](docs/images/03_boss.png)
+
+**胜利结算（验收局：用时 6:17 / Lv17 / 400 击杀）**
+
+![胜利结算](docs/images/04_victory.png)
 
 ## 核心系统
 
