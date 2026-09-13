@@ -15,15 +15,15 @@
 
 **升级三选一（元素精华 / 武器精通同池抽取，含前置条件）**
 
-![升级三选一](docs/images/02_upgrade.png)
+![升级三选一](docs/images/02_upgrade.jpg)
 
 **Boss 战（6:00 登场，三招循环·前摇可读）**
 
-![Boss战](docs/images/03_boss.png)
+![Boss战](docs/images/03_boss.jpg)
 
-**胜利结算（验收局：用时 6:17 / Lv17 / 400 击杀）**
+**胜利结算（实机演示局：用时 6:08 / Lv18 / 401 击杀）**
 
-![胜利结算](docs/images/04_victory.png)
+![胜利结算](docs/images/04_victory.jpg)
 
 ## 核心系统
 
